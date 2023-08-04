@@ -12,32 +12,37 @@ public class ListaLigada {
 		} else {
 			Celula nova = new Celula(elemento);
 			this.ultima.setProxima(nova);
+			nova.setAnterior(this.ultima);
 			this.ultima = nova;
 			this.totalDeElementos++;
 		}
-
 	}
 
 	public void adiciona(int posicao, Object elemento) {
 		if (posicao == 0) {
 			this.adicionaNoComeco(elemento);
-		} else if (posicao == this.totalDeElementos) {
+		} else if (posicao == this.totalDeElementos) { 
 			this.adiciona(elemento);
 		} else {
 			Celula anterior = this.pegaCelula(posicao - 1);
+			Celula proxima = anterior.getProxima();
 			Celula nova = new Celula(anterior.getProxima(), elemento);
+			nova.setAnterior(anterior);
 			anterior.setProxima(nova);
+			proxima.setAnterior(nova);
 			this.totalDeElementos++;
 		}
-
 	}
 
 	public void adicionaNoComeco(Object elemento) {
-		Celula nova = new Celula(this.primeira, elemento);
-		this.primeira = nova;
 		if (this.totalDeElementos == 0) {
-
-			this.ultima = this.primeira;
+			Celula nova = new Celula(elemento);
+			this.primeira = nova;
+			this.ultima = nova;
+		} else {
+			Celula nova = new Celula(this.primeira, elemento);
+			this.primeira.setAnterior(nova);
+			this.primeira = nova;
 		}
 		this.totalDeElementos++;
 	}
@@ -93,7 +98,7 @@ public class ListaLigada {
 	}
 
 	public int tamanho() {
-		return this.totalDeElementos; 
+		return this.totalDeElementos;
 	}
 
 	public boolean contem(Object o) {
