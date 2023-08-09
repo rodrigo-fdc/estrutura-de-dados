@@ -9,22 +9,43 @@ public class Program {
 	public static List<List<Integer>> threeSum(int[] array, int target){
 		List<List<Integer>> result = new ArrayList<>();
 		
-		Arrays.sort(array);
-		
-		for (int i = 0; i < array.length -2; i++) {
-			for (int j = i + 1; j < array.length - 1; j++) {
-				for (int k = j + 1; k < array.length; k++) {
-					if (array[i] + array [j] +  array[k] == target) {
-						List<Integer> numeros = new ArrayList<>();
-						numeros.add(array[i]);
-						numeros.add(array[j]);
-						numeros.add(array[k]);
-						result.add(numeros);
-					}
-				}
-			}
-		}
-		return result;
+        Arrays.sort(array); // Ordena o array
+        
+        for (int i = 0; i < array.length - 2; i++) {
+            if (i > 0 && array[i] == array[i - 1]) {
+                continue; // Ignora elementos duplicados para evitar duplicação de resultados
+            }
+            
+            int left = i + 1;
+            int right = array.length - 1;
+            
+            while (left < right) {
+                int sum = array[i] + array[left] + array[right];
+                
+                if (sum == target) {
+                    result.add(Arrays.asList(array[i], array[left], array[right]));
+                    
+                    // Avança o ponteiro esquerdo para evitar duplicação de resultados
+                    while (left < right && array[left] == array[left + 1]) {
+                        left++;
+                    }
+                    
+                    // Recua o ponteiro direito para evitar duplicação de resultados
+                    while (left < right && array[right] == array[right - 1]) {
+                        right--;
+                    }
+                    
+                    left++;
+                    right--;
+                } else if (sum < target) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        
+        return result;
 	}
 	
 	public static void main(String[] args) {
