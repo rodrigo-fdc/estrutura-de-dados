@@ -1,13 +1,12 @@
 package app;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 public class Program {
 
 	public static void main(String[] args) {
 		int target = 9;
-		int[] array = { 4, 1, 2, -2, 11, 15, 1, -1, -6, -4 };
+		int[] array = { 4, 1, 2, -2, 11, 14, 1, -1, -6, -4 };
 
 		int[] result = findTwoSum(array, target);
 		
@@ -21,17 +20,22 @@ public class Program {
 
 	private static int[] findTwoSum(int[] array, int target) {
 		
-		Map<Integer, Integer> numIndexMap = new HashMap<>();
-        
-        for (int i = 0; i < array.length; i++) {
-            int complement = target - array[i];
-            
-            if (numIndexMap.containsKey(complement)) {
-                return new int[]{complement, array[i]};
-            }
-            
-            numIndexMap.put(array[i], i);
-        }
+		Arrays.sort(array);
+		
+		int left = 0;
+		int right = array.length - 1;
+		
+		while ( left < right ) {
+			int sum = array[left] + array[right];
+			
+			if (sum == target) {
+				return new int[]{array[left], array[right]};
+			} else if (sum < target) {
+				left++;
+			} else {
+				right--;
+			}
+		}
         
         return null;
 	}
