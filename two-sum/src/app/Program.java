@@ -1,5 +1,8 @@
 package app;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Program {
 
 	public static void main(String[] args) {
@@ -18,18 +21,19 @@ public class Program {
 
 	private static int[] findTwoSum(int[] array, int target) {
 		
-		for (int i = 0; i < array.length ; i++) {
-			
-			for (int j = i+1 ; j < array.length; j++ ) {
-				
-				if (array[i] + array[j] == target) {
-					return new int[] {array[i], array[j]};
-				}
-			}
-			
-		}
-		
-		return null;
+		Map<Integer, Integer> numIndexMap = new HashMap<>();
+        
+        for (int i = 0; i < array.length; i++) {
+            int complement = target - array[i];
+            
+            if (numIndexMap.containsKey(complement)) {
+                return new int[]{complement, array[i]};
+            }
+            
+            numIndexMap.put(array[i], i);
+        }
+        
+        return null;
 	}
 
 }
